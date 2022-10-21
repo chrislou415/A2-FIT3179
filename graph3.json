@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple pie chart with labels.",
+  "width": 420,
+  "height": 370,
+  "data": {
+    "url": "https://raw.githubusercontent.com/chrislou415/data/main/Top10%20Population.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.Deaths/datum.Historical_Population*1000000",
+      "as": "Road Deaths per Million Population"
+    },
+    {
+      "calculate": "datum.Deaths/datum.Historical_Population*100",
+      "as": "Mortality Rate"
+    }
+  ],
+  "encoding": {
+    "theta": {"field": "Mortality Rate", "type": "quantitative", "stack": true},
+    "tooltip": [
+      {"field": "Entity", "type": "nominal", "title": "Country"},
+      {
+        "field": "Road Deaths per Million Population",
+        "type": "quantitative",
+        "format": ".0f",
+        "title": "Road Deaths per 1000,000"
+      },
+      {"field": "Deaths", "type": "quantitative", "format": ","},
+      {
+        "field": "Mortality Rate",
+        "type": "quantitative",
+        "format": ".4f",
+        "title": "Mortality Rate(%)"
+      },
+      {
+        "field": "Historical_Population",
+        "type": "quantitative",
+        "title": "Population",
+        "format": ","
+      }
+    ],
+    "color": {
+      "field": "Entity",
+      "type": "nominal",
+      "title": "Country Name",
+      "scale": {
+        "domain": [
+          "China",
+          "India",
+          "United States",
+          "Indonesia",
+          "Pakistan",
+          "Brazil",
+          "Nigeria",
+          "Bangladesh",
+          "Russia",
+          "Mexico"
+        ],
+        "range": [
+          "#C85454",
+          "#54C884",
+          "#7E57C2",
+          "#C854B4",
+          "#32784b",
+          "#5486C8",
+          "#996633",
+          "#d0de98",
+          "#437ea0",
+          "#324c78"
+        ]
+      }
+    }
+  },
+  "layer": [
+    {"mark": {"type": "arc", "outerRadius": 130}},
+    {
+      "mark": {"type": "text", "radius": 170},
+      "encoding": {"text": {"field": "Code", "type": "nominal"}}
+    }
+  ]
+}
